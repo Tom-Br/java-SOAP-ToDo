@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ToDo_Service_ImplService WSDL service -->
+
+  <service name="ToDo_Service_Impl" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://controller"/>
+      <parameter name="wsdlServiceElement" value="ToDo_Service_ImplService"/>
+      <parameter name="schemaQualified" value="http://controller,http://application"/>
+      <parameter name="wsdlServicePort" value="ToDo_Service_Impl"/>
+      <parameter name="className" value="controller.ToDo_Service_Impl"/>
+      <parameter name="wsdlPortType" value="ToDo_Service_Impl"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://controller" xmlns:retNS="http://controller" xmlns:rtns="http://application" name="getItem" qname="operNS:getItem" returnQName="retNS:getItemReturn" returnType="rtns:Item" soapAction="">
+        <parameter xmlns:pns="http://controller" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://controller" xmlns:retNS="http://controller" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="addItem" qname="operNS:addItem" returnQName="retNS:addItemReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://controller" xmlns:tns="http://application" qname="pns:a" type="tns:Item"/>
+      </operation>
+      <operation xmlns:operNS="http://controller" xmlns:retNS="http://controller" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="deleteItem" qname="operNS:deleteItem" returnQName="retNS:deleteItemReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://controller" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://controller" xmlns:retNS="http://controller" xmlns:rtns="http://application" name="getAllItems" qname="operNS:getAllItems" returnQName="retNS:getAllItemsReturn" returnType="rtns:Item" soapAction="">
+      </operation>
+      <parameter name="allowedMethods" value="addItem deleteItem getAllItems getItem"/>
+
+      <typeMapping xmlns:ns="http://application" qname="ns:Item" type="java:application.Item" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>
